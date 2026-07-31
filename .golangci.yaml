@@ -1,0 +1,45 @@
+version: "2"
+linters:
+  disable:
+    - bodyclose
+    - exhaustruct
+    - mnd
+    - noctx
+  settings:
+    depguard:
+      rules:
+        main:
+          files:
+            - $all
+            - '!$test'
+          allow:
+            - $gostd
+            - github.com/google
+            - github.com/eclipse
+            - github.com/dchauviere
+            - github.com/gorilla/websocket
+            - github.com/icholy/digest
+        test:
+          files:
+            - $test
+          allow:
+            - $gostd
+            - github.com/stretchr
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

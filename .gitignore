@@ -1,0 +1,4 @@
+go-tydom
+
+dist/
+.envrc

@@ -1,0 +1,119 @@
+{
+    "availability": {
+        "topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/availability"
+    },
+    "components": {
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-cover": {
+            "platform": "cover",
+            "device_class": "shutter",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-cover",
+            "name": "Cover",
+            "payload_close": "DOWN",
+            "payload_open": "UP",
+            "payload_stop": "STOP",
+            "command_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/set/positionCmd",
+            "set_position_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/set/position",
+            "position_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/position"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-localisation": {
+            "platform": "button",
+            "device_class": "identify",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-localisation",
+            "name": "localisation",
+            "command_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/set/localisation",
+            "payload_press": "START"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-pairing": {
+            "platform": "button",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-pairing",
+            "name": "pairing",
+            "command_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/set/pairing",
+            "payload_press": "START"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-battDefect": {
+            "platform": "binary_sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-battDefect",
+            "name": "battDefect",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/battDefect",
+            "payload_off": "false",
+            "payload_on": "true",
+            "entity_category": "diagnostic"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-downDefect": {
+            "platform": "binary_sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-downDefect",
+            "name": "downDefect",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/downDefect",
+            "payload_off": "false",
+            "payload_on": "true",
+            "entity_category": "diagnostic"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-intrusion": {
+            "platform": "binary_sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-intrusion",
+            "name": "intrusion",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/intrusion",
+            "entity_category": "diagnostic",
+            "payload_off": "false",
+            "payload_on": "true"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-obstacleDefect": {
+            "platform": "binary_sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-obstacleDefect",
+            "name": "obstacleDefect",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/obstacleDefect",
+            "entity_category": "diagnostic",
+            "payload_off": "false",
+            "payload_on": "true"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-onFavPos": {
+            "platform": "binary_sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-onFavPos",
+            "name": "onFavPos",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/onFavPos",
+            "entity_category": "diagnostic",
+            "payload_off": "false",
+            "payload_on": "true"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-thermicDefect": {
+            "platform": "binary_sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-thermicDefect",
+            "name": "thermicDefect",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/thermicDefect",
+            "entity_category": "diagnostic",
+            "payload_off": "false",
+            "payload_on": "true"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-upDefect": {
+            "platform": "binary_sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-upDefect",
+            "name": "upDefect",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/upDefect",
+            "entity_category": "diagnostic",
+            "payload_off": "false",
+            "payload_on": "true"
+        },
+        "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-position": {
+            "platform": "sensor",
+            "unique_id": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}-position",
+            "name": "position",
+            "entity_category": "diagnostic",
+            "unit_of_measurement": "%",
+            "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/attrs/position"
+        }
+    },
+    "device": {
+        "identifiers": "{{ .Gateway.ID }}-{{ .DeviceID }}-{{ .EndpointID }}",
+        "manufacturer": "{{ .Gateway.Manufacturer }}",
+        "model": "Shutter",
+        "name": "{{ .DeviceName }}",
+        "via_device": "{{ .Gateway.ID }}"
+    },
+    "origin": {
+        "name": "{{ .Gateway.AppName }}",
+        "support_url": "{{ .Gateway.AppSupportURL }}",
+        "sw_version": "{{ .Gateway.AppVersion }}"
+    },
+    "qos": 1,
+    "state_topic": "{{ .Gateway.MQTTPrefix }}/{{ .Gateway.ID }}/devices/{{ .DeviceID }}/{{ .EndpointID }}/state"
+}

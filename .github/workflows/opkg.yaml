@@ -1,0 +1,51 @@
+name: Publish opkg feed
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-opkg:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+
+      - name: Download release assets
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: ${{ github.repository }}
+          tag: ${{ github.event.release.tag_name }}
+          fileName: "*.ipk"
+          out-file-path: ./opkg
+
+      - name: Install opkg-utils (OpenWrt official)
+        run: |
+          git clone https://git.yoctoproject.org/opkg-utils
+
+      - name: Generate opkg index
+        run: |
+          cd opkg
+          ../opkg-utils/opkg-make-index . > Packages
+          gzip -c Packages > Packages.gz
+          rm -rf ../opkg-utils
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

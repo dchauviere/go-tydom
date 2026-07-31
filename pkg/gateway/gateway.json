@@ -1,0 +1,68 @@
+{
+    "availability": {
+        "topic": "{{ .MQTTPrefix }}/{{ .ID }}/availability"
+    },
+    "command_topic": "{{ .MQTTPrefix }}/{{ .ID }}/set",
+    "components": {
+        "{{ .MQTTPrefix }}/{{ .ID }}_cmp1": {
+            "device_class": "connectivity",
+            "entity_category": "diagnostic",
+            "name": "Tydom Connection",
+            "payload_off": "offline",
+            "payload_on": "online",
+            "platform": "binary_sensor",
+            "unique_id": "{{ .MQTTPrefix }}/{{ .ID }}_connection",
+            "state_topic": "{{ .MQTTPrefix }}/{{ .ID }}/attrs/tydomState"
+        },
+        "{{ .MQTTPrefix }}/{{ .ID }}_cmp2": {
+            "command_topic": "{{ .MQTTPrefix }}/{{ .ID }}/set/logLevel",
+            "entity_category": "config",
+            "name": "Log Level",
+            "options": [
+                "error",
+                "warn",
+                "info",
+                "debug"
+            ],
+            "platform": "select",
+            "unique_id": "{{ .MQTTPrefix }}/{{ .ID }}_loglevel",
+            "state_topic": "{{ .MQTTPrefix }}/{{ .ID }}/attrs/logLevel"
+        },
+        "{{ .MQTTPrefix }}/{{ .ID }}_cmp3": {
+            "device_class": "enum",
+            "entity_category": "diagnostic",
+            "name": "Device install state",
+            "options": [
+                "idle",
+                "running"
+            ],
+            "platform": "sensor",
+            "unique_id": "{{ .MQTTPrefix }}/{{ .ID }}_device_install",
+            "state_topic": "{{ .MQTTPrefix }}/{{ .ID }}/attrs/installState"
+        },
+        "{{ .MQTTPrefix }}/{{ .ID }}_cmp4": {
+            "command_topic": "{{ .MQTTPrefix }}/{{ .ID }}/set/installType",
+            "entity_category": "config",
+            "name": "Install",
+            "platform": "select",
+            "options": ["{{.InstallCodes}}"],
+            "unique_id": "{{ .MQTTPrefix }}/{{ .ID }}_install",
+            "state_topic": "{{ .MQTTPrefix }}/{{ .ID }}/attrs/installType"
+        }
+    },
+    "device": {
+        "identifiers": "{{ .ID }}",
+        "manufacturer": "{{ .Manufacturer }}",
+        "model": "{{ .Model }}",
+        "name": "Tydom-{{ .ID }}",
+        "hw": "{{ .HWVersion }}",
+        "sw": "{{ .SWVersion }}"
+    },
+    "origin": {
+        "name": "{{ .AppName }}",
+        "support_url": "{{ .AppSupportURL }}",
+        "sw_version": "{{ .AppVersion }}"
+    },
+    "qos": 1,
+    "state_topic": "{{ .MQTTPrefix }}/{{ .ID }}/state"
+}

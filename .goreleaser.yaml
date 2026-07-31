@@ -1,0 +1,170 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # you may remove this if you don't need go generate
+    - go generate ./...
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      # - windows
+      # - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+      - riscv64
+    mod_timestamp: "{{ .CommitTimestamp }}"
+    ldflags:
+    - -s -w -X github.com/dchauviere/go-tydom/internal/config.VERSION={{.Version}} -X github.com/dchauviere/go-tydom/internal/config.COMMIT={{.Commit}}
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+
+# dockers:
+#   - id: linux-amd64
+#     use: buildx
+#     build_flag_templates:
+#       - --platform=linux/amd64
+#     goos: linux
+#     goarch: amd64
+#     image_templates:
+#       - dawei06/go-tydom:{{.Version}}-amd64
+#   - id: linux-arm64
+#     use: buildx
+#     build_flag_templates:
+#       - --platform=linux/arm64
+#     goos: linux
+#     goarch: arm64
+#     image_templates:
+#       - dawei06/go-tydom:{{.Version}}-arm64
+
+# docker_manifests:
+#   - name_template: "dawei06/go-tydom:{{ .Tag }}"
+#     image_templates:
+#       - "dawei06/go-tydom:{{ .Tag }}-amd64"
+#       - "dawei06/go-tydom:{{ .Tag }}-arm64"
+#   - name_template: "dawei06/go-tydom:latest"
+#     image_templates:
+#       - "dawei06/go-tydom:{{ .Tag }}-amd64"
+#       - "dawei06/go-tydom:{{ .Tag }}-arm64"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+nfpms:
+  # note that this is an array of nfpm configs
+  - #
+    # ID of the nfpm config, must be unique.
+    #
+    # Default: 'default'.
+    id: opkg
+
+    # Name of the package.
+    #
+    # Default: ProjectName.
+    # Templates: allowed.
+    package_name: go-tydom
+
+    # You can change the file name of the package.
+    #
+    # Default: '{{ .PackageName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}'.
+    # Templates: allowed.
+    file_name_template: "{{ .ConventionalFileName }}"
+
+    # Your app's vendor.
+    vendor: David Chauvière
+
+    # Your app's homepage.
+    #
+    # Default: inferred from global metadata.
+    homepage: https://github.com/dchauviere/go-tydom
+
+    # Your app's maintainer (probably you).
+    #
+    # Default: inferred from global metadata.
+    maintainer: David Chauvière <david.chauviere@gmail.com>
+
+    # Your app's description.
+    #
+    # Default: inferred from global metadata.
+    description: |-
+      Tydom to mqtt gateway
+
+    # Your app's license.
+    #
+    # Default: inferred from global metadata.
+    license: Apache 2.0
+
+    # Formats to be generated.
+    formats:
+      - ipk
+
+    # Umask to be used on files without explicit mode set. (overridable)
+    #
+    # Default: 0o002 (will remove world-writable permissions).
+    umask: 0o002
+
+    # Packages your package depends on. (overridable)
+    dependencies:
+
+    # Packages it provides. (overridable)
+    provides:
+      - go-tydom
+
+    # Path that the binaries should be installed.
+    #
+    # Ignored by the `msix` format, which always places binaries at the
+    # package root.
+    #
+    # Default: '/usr/bin'.
+    bindir: /opt/bin
+
+    # Section.
+    section: default
+
+    # Priority.
+    priority: extra
+
+    ipk:
+      # Additional fields for the control file. Empty fields are ignored.
+      # This will expand any env vars you set in the field values, e.g. Vcs-Browser: ${CI_PROJECT_URL}
+      #
+      # Default: none
+      fields:
+        Bugs: ${CI_PROJECT_URL}/-/issues
+
+      # A list of tags to associate with the package.
+      #
+      # Default: none
+      tags:
+        - iot
