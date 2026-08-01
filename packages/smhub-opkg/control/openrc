@@ -1,4 +1,4 @@
-!/sbin/openrc-run
+#!/sbin/openrc-run
 
 description="Go-Tydom service"
 
@@ -14,15 +14,13 @@ export PATH=/opt/bin:$PATH
 export GO_TYDOM_CONFIG_DIR=/home/smlight/.go-tydom
 
 depend() {
-  need localmount net
+  need net
   use mosquitto
-  after api-ready
-  provide go-tydom
 }
 
 start_pre() {
   # Check if configuration exists
-  if [ ! -f "$GO_TYDOM_CONFIG/config.yaml" ]; then
+  if [ ! -f "$GO_TYDOM_CONFIG_DIR/config.yaml" ]; then
           eerror "Configuration file $GO_TYDOM_CONFIG_DIR/config.yaml does not exist"
           return 1
   fi
