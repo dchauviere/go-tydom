@@ -1,0 +1,8 @@
+log-level: info
+tydom:
+  gateway-id: ""
+  hostname: tydom.local
+mqtt:
+  url: "mqtt://localhost:1883"
+webui:
+  username: admin

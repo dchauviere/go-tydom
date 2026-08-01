@@ -21,7 +21,7 @@
             "default": "",
             "type": "string",
             "required": true,
-            "path": "tydom.gateway_id"
+            "path": "tydom.gateway-id"
         },
         "tydom_password": {
             "default": "",

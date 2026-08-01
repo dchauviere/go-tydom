@@ -7,6 +7,7 @@ SERVICE_NAME="go-tydom"
 AUTOSTART_FILE="/opt/share/services/${SERVICE_NAME}.autostart"
 MODEL=""
 CONFIG_DIR="/home/smlight/.go-tydom"
+DEFAULT_CONFIG="/var/lib/opkg/info/${PKG_NAME}.default-config.yaml"
 
 if [ -r /usr/lib/eeprom/eeprom-read.sh ]; then
     . /usr/lib/eeprom/eeprom-read.sh
@@ -16,6 +17,11 @@ fi
 if [ ! -d "$CONFIG_DIR" ]; then
     mkdir -p "$CONFIG_DIR"
     chown smlight:smlight "$CONFIG_DIR"
+fi
+
+if [ -f "${CONFIG_DIR}/config.yaml" ]; then
+    cp "${DEFAULT_CONFIG}" "${CONFIG_DIR}/config.yaml"
+    chown smlight:smlight "${CONFIG_DIR}/config.yaml"
 fi
 
 pkg_openrc_install "${PKG_NAME}" "${SERVICE_NAME}" "${AUTOSTART_FILE}"

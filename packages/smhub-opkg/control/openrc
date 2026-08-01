@@ -21,9 +21,11 @@ depend() {
 start_pre() {
   # Check if configuration exists
   if [ ! -f "$GO_TYDOM_CONFIG_DIR/config.yaml" ]; then
-          eerror "Configuration file $GO_TYDOM_CONFIG_DIR/config.yaml does not exist"
-          return 1
+    eerror "Configuration file $GO_TYDOM_CONFIG_DIR/config.yaml does not exist"
+    return 1
   fi
 
+  checkpath --file --mode 0644 --owner smlight:smlight /var/log/go-tydom.log
+  
   return 0
 }
