@@ -19,7 +19,7 @@ if [ ! -d "$CONFIG_DIR" ]; then
     chown smlight:smlight "$CONFIG_DIR"
 fi
 
-if [ -f "${CONFIG_DIR}/config.yaml" ]; then
+if [ ! -f "${CONFIG_DIR}/config.yaml" ]; then
     cp "${DEFAULT_CONFIG}" "${CONFIG_DIR}/config.yaml"
     chown smlight:smlight "${CONFIG_DIR}/config.yaml"
 fi
