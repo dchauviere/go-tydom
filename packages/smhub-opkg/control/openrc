@@ -4,7 +4,7 @@ description="Go-Tydom service"
 
 supervisor="supervise-daemon"
 command="/opt/bin/go-tydom"
-command_args="serve"
+command_args="serve --config=/home/smlight/.go-tydom/config.yaml"
 command_user="smlight:smlight"
 pidfile="/var/run/go-tydom.pid"
 output_log="/var/log/go-tydom.log"
