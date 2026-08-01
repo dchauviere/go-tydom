@@ -1,0 +1,10 @@
+#!/bin/sh
+# Pre-removal script - stops service before removal or upgrade
+
+. /usr/lib/smhub/service-helpers.sh
+
+PKG_NAME="go-tydom"
+
+pkg_service_stop "${PKG_NAME}"
+
+exit 0

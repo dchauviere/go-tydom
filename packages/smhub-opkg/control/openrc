@@ -1,0 +1,31 @@
+!/sbin/openrc-run
+
+description="Go-Tydom service"
+
+supervisor="supervise-daemon"
+command="/opt/bin/go-tydom"
+command_args="serve"
+command_user="smlight:smlight"
+pidfile="/var/run/go-tydom.pid"
+output_log="/var/log/go-tydom.log"
+error_log="/var/log/go-tydom.log"
+
+export PATH=/opt/bin:$PATH
+export GO_TYDOM_CONFIG_DIR=/home/smlight/.go-tydom
+
+depend() {
+  need localmount net
+  use mosquitto
+  after api-ready
+  provide go-tydom
+}
+
+start_pre() {
+  # Check if configuration exists
+  if [ ! -f "$GO_TYDOM_CONFIG/config.yaml" ]; then
+          eerror "Configuration file $GO_TYDOM_CONFIG_DIR/config.yaml does not exist"
+          return 1
+  fi
+
+  return 0
+}

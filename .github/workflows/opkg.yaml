@@ -19,32 +19,38 @@ jobs:
     steps:
       - name: Checkout gh-pages
         uses: actions/checkout@v6
-        with:
-          ref: gh-pages
 
-      - name: Download release assets
+      - name: Download smhub release asset
         uses: robinraju/release-downloader@v1
         with:
           repository: ${{ github.repository }}
           tag: ${{ github.event.release.tag_name }}
-          fileName: "*.ipk"
-          out-file-path: ./opkg
+          fileName: "go-tydom_Linux_riscv64.tar.gz"
+          extract: true
+          extract-path: .tmp
 
       - name: Install opkg-utils (OpenWrt official)
         run: |
           git clone https://git.yoctoproject.org/opkg-utils
 
+      - name: make opkg
+        run: |
+          mkdir -p dist/gh-pages/opkg
+          _pkg_version=${{ github.event.release.tag_name }}
+          export _pkg_version=${_pkg_version#v}
+          ./packages/smhub-opkg/make-pkg.sh $_pkg_version .tmp/go-tydom .tmp-opkg dist/gh-pages/opkg/go-tydom_${{ github.event.release.tag_name }}.ipk
+          rm -rf .tmp .tmp-opkg
+
       - name: Generate opkg index
         run: |
-          cd opkg
-          ../opkg-utils/opkg-make-index . > Packages
+          cd dist/gh-pages/opkg
+          ../../../opkg-utils/opkg-make-index . > Packages
           gzip -c Packages > Packages.gz
-          rm -rf ../opkg-utils
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist/gh-pages
 
       - name: Deploy to GitHub Pages
         id: deployment

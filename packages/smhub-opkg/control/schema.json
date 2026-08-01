@@ -1,0 +1,88 @@
+{
+    "system": {
+        "iframe_port": {
+            "default": 8080,
+            "type": "integer"
+        },
+        "service": {
+            "default": true,
+            "type": "boolean"
+        },
+        "watchdog": {
+            "default": true,
+            "type": "boolean"
+        },
+        "config_reset": {
+            "default": true,
+            "type": "boolean"
+        },
+        "config_sources": [
+            {
+                "name": "go-tydom",
+                "provider": "yaml",
+                "path": "/home/smlight/.go-tydom/config.yaml"
+            }
+        ]
+    },
+    "config": {
+        "tydom_gateway_id": {
+            "default": "",
+            "type": "string",
+            "required": true,
+            "path": "tydom.gateway_id"
+        },
+        "tydom_password": {
+            "default": "",
+            "type": "password",
+            "required": false,
+            "path": "tydom.password"
+        },
+        "tydom_hostname": {
+            "default": "",
+            "type": "string",
+            "required": true,
+            "path": "tydom.hostname"
+        },
+        "mqtt_username": {
+            "default": "",
+            "type": "string",
+            "required": false,
+            "path": "mqtt.username"
+        },
+        "mqtt_password": {
+            "default": "",
+            "type": "password",
+            "required": false,
+            "path": "mqtt.password"
+        },
+        "mqtt_url": {
+            "default": "mqtt://localhost:1883",
+            "type": "string",
+            "required": true,
+            "path": "mqtt.url"
+        },
+        "webui_username": {
+            "default": "admin",
+            "type": "string",
+            "required": true,
+            "path": "webui.username"
+        },
+        "webui_password": {
+            "default": "",
+            "type": "password",
+            "required": false,
+            "path": "webui.password"
+        },
+        "log_level": {
+            "default": "info",
+            "type": "enum",
+            "options": [
+                "debug",
+                "info",
+                "warning",
+                "error"
+            ],
+            "path": "log-level"
+        }
+    }
+}

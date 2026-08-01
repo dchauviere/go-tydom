@@ -1,0 +1,24 @@
+#!/bin/sh
+
+. /usr/lib/smhub/service-helpers.sh
+
+PKG_NAME="go-tydom"
+SERVICE_NAME="go-tydom"
+AUTOSTART_FILE="/opt/share/services/${SERVICE_NAME}.autostart"
+MODEL=""
+CONFIG_DIR="/home/smlight/.go-tydom"
+
+if [ -r /usr/lib/eeprom/eeprom-read.sh ]; then
+    . /usr/lib/eeprom/eeprom-read.sh
+    MODEL=$(eeprom_get_model)
+fi
+
+if [ ! -d "$CONFIG_DIR" ]; then
+    mkdir -p "$CONFIG_DIR"
+    chown smlight:smlight "$CONFIG_DIR"
+fi
+
+pkg_openrc_install "${PKG_NAME}" "${SERVICE_NAME}" "${AUTOSTART_FILE}"
+pkg_service_restart "${PKG_NAME}"
+
+exit 0

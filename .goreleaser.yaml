@@ -16,12 +16,11 @@ before:
     - go generate ./...
 
 builds:
-  - env:
+  - id: default
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
-      # - windows
-      # - darwin
     goarch:
       - amd64
       - arm
@@ -32,7 +31,10 @@ builds:
     - -s -w -X github.com/dchauviere/go-tydom/internal/config.VERSION={{.Version}} -X github.com/dchauviere/go-tydom/internal/config.COMMIT={{.Commit}}
 
 archives:
-  - format: tar.gz
+  - ids: 
+      - default
+    formats:
+      - tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
@@ -44,7 +46,8 @@ archives:
     # use zip for windows archives
     format_overrides:
       - goos: windows
-        format: zip
+        formats:
+          - zip
 
 # dockers:
 #   - id: linux-amd64
@@ -80,91 +83,3 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
-
-nfpms:
-  # note that this is an array of nfpm configs
-  - #
-    # ID of the nfpm config, must be unique.
-    #
-    # Default: 'default'.
-    id: opkg
-
-    # Name of the package.
-    #
-    # Default: ProjectName.
-    # Templates: allowed.
-    package_name: go-tydom
-
-    # You can change the file name of the package.
-    #
-    # Default: '{{ .PackageName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}'.
-    # Templates: allowed.
-    file_name_template: "{{ .ConventionalFileName }}"
-
-    # Your app's vendor.
-    vendor: David Chauvière
-
-    # Your app's homepage.
-    #
-    # Default: inferred from global metadata.
-    homepage: https://github.com/dchauviere/go-tydom
-
-    # Your app's maintainer (probably you).
-    #
-    # Default: inferred from global metadata.
-    maintainer: David Chauvière <david.chauviere@gmail.com>
-
-    # Your app's description.
-    #
-    # Default: inferred from global metadata.
-    description: |-
-      Tydom to mqtt gateway
-
-    # Your app's license.
-    #
-    # Default: inferred from global metadata.
-    license: Apache 2.0
-
-    # Formats to be generated.
-    formats:
-      - ipk
-
-    # Umask to be used on files without explicit mode set. (overridable)
-    #
-    # Default: 0o002 (will remove world-writable permissions).
-    umask: 0o002
-
-    # Packages your package depends on. (overridable)
-    dependencies:
-
-    # Packages it provides. (overridable)
-    provides:
-      - go-tydom
-
-    # Path that the binaries should be installed.
-    #
-    # Ignored by the `msix` format, which always places binaries at the
-    # package root.
-    #
-    # Default: '/usr/bin'.
-    bindir: /opt/bin
-
-    # Section.
-    section: default
-
-    # Priority.
-    priority: extra
-
-    ipk:
-      # Additional fields for the control file. Empty fields are ignored.
-      # This will expand any env vars you set in the field values, e.g. Vcs-Browser: ${CI_PROJECT_URL}
-      #
-      # Default: none
-      fields:
-        Bugs: ${CI_PROJECT_URL}/-/issues
-
-      # A list of tags to associate with the package.
-      #
-      # Default: none
-      tags:
-        - iot
