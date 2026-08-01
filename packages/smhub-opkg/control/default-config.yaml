@@ -5,4 +5,5 @@ tydom:
 mqtt:
   url: "mqtt://localhost:1883"
 webui:
+  listen: 0.0.0.0:8091
   username: admin
