@@ -8,14 +8,6 @@
             "default": true,
             "type": "boolean"
         },
-        "watchdog": {
-            "default": true,
-            "type": "boolean"
-        },
-        "config_reset": {
-            "default": true,
-            "type": "boolean"
-        },
         "config_sources": [
             {
                 "name": "go-tydom",
