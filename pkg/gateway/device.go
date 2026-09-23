@@ -112,7 +112,11 @@ func (tg *TydomGateway) processGatewayCommand(_ MQTT.Client, msg MQTT.Message) {
 	case "loglevel":
 		tg.logger.Info("setting log level", "level", msg.Payload())
 
-		_ = logging.SetLevel(string(msg.Payload()))
+		level := strings.TrimSpace(string(msg.Payload()))
+		if err := logging.SetLevel(level); err != nil {
+			tg.logger.Error("failed to set log level", "level", level, "error", err)
+			return
+		}
 
 		tg.publishAttributes("logLevel", logging.Level())
 	case "installtype":
