@@ -66,15 +66,15 @@
             "path": "webui.password"
         },
         "log_level": {
-            "default": "info",
+            "default": "warn",
             "type": "enum",
             "options": [
                 "debug",
                 "info",
-                "warning",
+                "warn",
                 "error"
             ],
-            "path": "log-level"
+            "path": "log.level"
         }
     }
 }

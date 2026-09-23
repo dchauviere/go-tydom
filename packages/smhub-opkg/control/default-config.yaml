@@ -1,4 +1,5 @@
-log-level: info
+log:
+  level: warn
 tydom:
   gateway-id: ""
   hostname: tydom.local
